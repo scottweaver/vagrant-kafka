@@ -11,6 +11,8 @@ Vagrant.configure("2") do |config|
   # common provisioning for all 
   config.vm.provision "shell", path: "scripts/init.sh"
   
+  config.vm.box_download_insecure = true
+  
   # configure zookeeper cluster
   (1..3).each do |i|
     config.vm.define "zookeeper#{i}" do |s|
@@ -33,4 +35,3 @@ Vagrant.configure("2") do |config|
     v.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
   end
 end
-
