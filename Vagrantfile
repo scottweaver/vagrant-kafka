@@ -10,28 +10,19 @@ Vagrant.configure("2") do |config|
  
   # common provisioning for all 
   config.vm.provision "shell", path: "scripts/init.sh"
-  
   config.vm.box_download_insecure = true
-  
-  # configure zookeeper cluster
-  (1..3).each do |i|
-    config.vm.define "zookeeper#{i}" do |s|
-      s.vm.hostname = "zookeeper#{i}"
-      s.vm.network "private_network", ip: "10.30.3.#{i+1}", netmask: "255.255.255.0", virtualbox__intnet: "my-network", drop_nat_interface_default_route: true
-      s.vm.provision "shell", path: "scripts/zookeeper.sh", args:"#{i}", privileged: false
-    end
-  end
+  config.vm.synced_folder "../kafka-0.10.0.0_shared", "/vagrant_shared", create: true
 
-  # configure brokers
-  (1..3).each do |i|
-    config.vm.define "broker#{i}" do |s|
-      s.vm.hostname = "broker#{i}"
-      s.vm.network "private_network", ip: "10.30.3.#{4-i}0", netmask: "255.255.255.0", virtualbox__intnet: "my-network", drop_nat_interface_default_route: true
-      s.vm.provision "shell", path: "scripts/broker.sh", args:"#{i}", privileged: false
-    end
-  end
+  config.vm.hostname = "kafka"
+  # config.vm.network "private_network", ip: "192.168.33.24", netmask: "255.255.255.0", virtualbox__intnet: "my-network"
+  config.vm.network "private_network", ip: "192.168.33.24"
+  config.vm.provision "shell", path: "scripts/startup.sh", args:"1", privileged: true, run: "always"
+  config.vm.provision "shell", path: "scripts/zookeeper.sh", args:"1", privileged: false, run: "always"
+  config.vm.provision "shell", path: "scripts/broker.sh", args:"1", privileged: false, run: "always"
 
   config.vm.provider "virtualbox" do |v|
     v.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
+    v.memory = "2048"
+    v.cpus = 2
   end
 end
