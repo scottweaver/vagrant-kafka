@@ -14,7 +14,6 @@ Vagrant.configure("2") do |config|
   config.vm.synced_folder "../kafka-0.10.0.0_shared", "/vagrant_shared", create: true
 
   config.vm.hostname = "kafka"
-  # config.vm.network "private_network", ip: "192.168.33.24", netmask: "255.255.255.0", virtualbox__intnet: "my-network"
   config.vm.network "private_network", ip: "192.168.33.24"
   config.vm.provision "shell", path: "scripts/startup.sh", args:"1", privileged: true, run: "always"
   config.vm.provision "shell", path: "scripts/zookeeper.sh", args:"1", privileged: false, run: "always"
