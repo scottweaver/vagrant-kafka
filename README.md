@@ -23,7 +23,7 @@ Setup
 
 To start it up, just git clone this repo and execute ```vagrant up```. This will take a while the first time as it downloads all required dependencies for you.
 
-Kafka is installed on all hosts at ```$HOME/kafka_2.10-0.10.1.0/```
+Kafka is installed on all hosts at ```$HOME/kafka_2.11-0.10.1.0/```
 
 Here is the mapping of VMs to their private IPs:
 
@@ -88,7 +88,7 @@ Kafka is using ZK for its operation. Here are some commands you can run on any o
 
 #### Open a ZK shell:
 
-```$HOME/kafka_2.10-0.10.1.0/bin/zookeeper-shell.sh 10.30.3.2:2181/```
+```$HOME/kafka_2.11-0.10.1.0/bin/zookeeper-shell.sh 10.30.3.2:2181/```
 
 
 Inspect ZK structure: 
@@ -132,7 +132,7 @@ Create a topic if does not exist
 Send data to the Kafka topic
 
 ```
-echo "Yet another line from stdin" | ./kafka_2.10-0.10.1.0/bin/kafka-console-producer.sh --topic test-one --broker-list 10.30.3.10:9092,10.30.3.20:9092,10.30.3.30:9092
+echo "Yet another line from stdin" | ./kafka_2.11-0.10.1.0/bin/kafka-console-producer.sh --topic test-one --broker-list 10.30.3.10:9092,10.30.3.20:9092,10.30.3.30:9092
 ```
 
 You can then test that the line was added by running the consumer
@@ -161,7 +161,7 @@ procs -----------memory---------- ---swap-- -----io---- --system-- -----cpu-----
 We can redirect this output into Kafka
 
 ```
-vmstat -a 1 | ./kafka_2.10-0.10.1.0/bin/kafka-console-producer.sh --topic test-one --broker-list 10.30.3.10:9092,10.30.3.20:9092,10.30.3.30:9092 &
+vmstat -a 1 | ./kafka_2.11-0.10.1.0/bin/kafka-console-producer.sh --topic test-one --broker-list 10.30.3.10:9092,10.30.3.20:9092,10.30.3.30:9092 &
 ```
 
 While the producer runs in the background you can start the consumer to see what happens
@@ -174,5 +174,3 @@ You should be seeing the output of `vmstat` in the console.
 
 
 When you are all done, kill the consumer by `ctl-C` and then type `fg` to bring the producer in foreground and `crl-C` to terminate it. 
-
-

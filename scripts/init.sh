@@ -1,8 +1,8 @@
 #!/bin/bash
 #download rpm if not present
 
-KAFKA_VERSION="0.9.0.1"
-KAFKA_NAME="kafka_2.10-$KAFKA_VERSION"
+KAFKA_VERSION="0.10.1.0"
+KAFKA_NAME="kafka_2.11-$KAFKA_VERSION"
 KAFKA_TARGET="/vagrant/tars/"
 
 echo Downloading kafka...$KAFKA_VERSION 
